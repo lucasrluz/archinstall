@@ -26,3 +26,40 @@ mkdir -p /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 
 swapon /dev/sda2
+
+# Instalação do sistema
+pacstrap -K /mnt base linux linux-firmware
+
+# Fstab
+genfstab -U /mnt >> mnt/etc/fstab
+
+# chroot
+arch-chroot /mnt bash -c ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+arch-chroot /mnt bash -c locale-gen
+arch-chroot /mnt bash -c echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
+arch-chroot /mnt bash -c echo "archlinux" > /etc/hostname
+arch-chroot /mnt bash -c echo "root" | passwd -s
+
+# chroot > grub
+arch-chroot /mnt bash -c pacman -S grub efibootmgr
+arch-chroot /mnt bash -c grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+arch-chroot /mnt bash -c grub-mkconfig -o /boot/grub/grub.cfg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
