@@ -31,7 +31,7 @@ swapon /dev/sda2
 pacstrap -K /mnt base linux linux-firmware
 
 # Fstab
-genfstab -U /mnt >> mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
 # chroot
 arch-chroot /mnt bash -c ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
